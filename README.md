@@ -1,6 +1,6 @@
 # **🍽️ TasteMate**
 
-**TasteMate** is an iamge, voice and text-based intelligent recipe search web application. It allows users to input ingredients through speech, image or typing, apply filters like cuisine, meal type, diet, and preparation time, and find delicious recipes accordingly. Additionally, users can fetch top recipes from the web using a built-in scraper that pulls data from AllRecipes.com.
+**TasteMate** is an image, voice and text-based intelligent recipe search web application. It allows users to input ingredients through speech, image or typing, apply filters like cuisine, meal type, diet, and preparation time, and find delicious recipes accordingly. Additionally, users can fetch top recipes from the web using a built-in scraper that pulls data from AllRecipes.com.
 
 ---
 
