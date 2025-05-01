@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__, template_folder='templates1')
 CORS(app)
 
-API_USER_TOKEN = "5083e2f4ac0b575559c71c65d11167869b577395"
+API_USER_TOKEN = "__BLANK__"
 HEADERS = {"Authorization": f"Bearer {API_USER_TOKEN}"}
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
