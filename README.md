@@ -1,78 +1,72 @@
-# **🍽️ TasteMate**
+# 🍽️ **TasteMate – Your Smart Recipe Finder**
 
-**TasteMate** is an image, voice and text-based intelligent recipe search web application. It allows users to input ingredients through speech, image or typing, apply filters like cuisine, meal type, diet, and preparation time, and find delicious recipes accordingly. Additionally, users can fetch top recipes from the web using a built-in scraper that pulls data from AllRecipes.com.
-
----
-
-## 🚀 Features
-
-- 🎙️ **Voice Search for Ingredients**
-  
-  Use your voice to input ingredients quickly and hands-free.
-
-- ⌨️ **Manual Ingredient Input**
-  
-  Type in one or more ingredients to search for matching recipes.
-
-- 🖼️ **Image Recognition of Ingredients**
-  
-  Upload an image of raw ingredients, and the app will detect and extract ingredient names using image recognition.
-
-- 🌍 **Search from Web (Web Scraper)**
-  
-  Fetch the top 5 recipes for given ingredients from AllRecipes.com and redirect to the full recipe page.
-
-- 🍽️ Filter by:
-  
-  - Cuisine (e.g., Indian, Italian, etc.)
-    
-  - Course (e.g., Breakfast, Lunch, Dinner)
-    
-  - Diet (e.g., Vegetarian, Non-Vegetarian)
-    
-  - Maximum Preparation Time (e.g., < 30 mins)
-    
-- 📜 View top recipes directly on the app or fetch from AllRecipes.com
-  
-- 🔗 Redirect to full recipe details
+**TasteMate** is an intelligent, multi-input recipe discovery web application that helps you find delicious recipes effortlessly. Whether you prefer to **speak**, **type**, or **upload a photo**, TasteMate adapts to your style. With advanced filters and web scraping capabilities, discovering the perfect recipe has never been easier.
 
 ---
 
-## 🧠 How It Works
+## 🚀 **Key Features**
 
-### 🔍 Find Recipes (Local Data)
+### 🎙️ Voice-Powered Ingredient Input
 
-1. User can **speak, upload image or type** the ingredients.
-   
-3. Set optional filters (Cuisine, Course, Diet, Prep Time).
-   
-4. Click on **"Find Recipes"** to display matching recipes from the internal database.
+Quickly input ingredients using voice recognition — perfect for hands-free cooking.
 
-### 🌐 Search from Web
+### ⌨️ Manual Text Entry
 
-1. Click on the **Search from Web"** button.
-    
-2. Redirects to a **Web Scraper** interface.
-   
-3. Enter ingredients manually.
-   
-4. Displays **Top 5 recipes** fetched from **AllRecipes.com**.
-   
-5. Click on any recipe to open its full version on **AllRecipes.com**.
+Prefer typing? Enter one or more ingredients manually to search for matching recipes.
 
-## 🛠️ Tech Stack
+### 🖼️ Image-Based Ingredient Detection
 
-- **Frontend:** HTML, CSS, JavaScript
-  
-- **Speech Recognition:** Google Text-to-Speech API
-  
-- **Image Recognition:** Logmeal API
-  
-- **Backend:** Flask
-  
-- **Web Scraping:** BeautifulSoup (Python)
-  
-- **Data Source:** AllRecipes.com
+Upload an image of your ingredients, and TasteMate will automatically detect them using AI-powered image recognition.
 
+### 🌐 Web Recipe Search (AllRecipes.com Scraper)
 
+Use the built-in scraper to fetch the **top 5 recipes** from **AllRecipes.com** based on your selected ingredients. Redirect instantly to full recipe details.
 
+### 🧩 Smart Filters
+
+Refine your search using:
+
+* **Cuisine** – e.g., Indian, Italian, Mexican
+* **Course** – Breakfast, Lunch, Dinner, etc.
+* **Dietary Preferences** – Vegetarian, Non-Vegetarian
+* **Prep Time** – e.g., Under 30 minutes
+
+---
+
+## 🔍 **How It Works**
+
+### 🔎 Local Recipe Search
+
+1. Input ingredients via **voice**, **image**, or **text**
+2. Apply filters such as cuisine, course, diet, or preparation time
+3. Click **Find Recipes** to view matching options from the internal recipe database
+
+### 🌐 Web Recipe Fetching
+
+1. Navigate to **Search from Web**
+2. Manually enter your ingredients
+3. The app scrapes **top 5 recipes** from **AllRecipes.com**
+4. Click on any recipe to view the full details on AllRecipes.com
+
+---
+
+## 🛠️ **Tech Stack**
+
+| Area                 | Technology Used           |
+| -------------------- | ------------------------- |
+| Frontend             | HTML, CSS, JavaScript     |
+| Voice Recognition    | Google Speech-to-Text API |
+| Image Recognition    | LogMeal API               |
+| Backend              | Flask (Python)            |
+| Web Scraping         | BeautifulSoup (Python)    |
+| External Data Source | AllRecipes.com            |
+
+---
+
+## 📱 **Why TasteMate?**
+
+TasteMate bridges the gap between your pantry and your plate. Whether you're in a rush, cooking on a budget, or just looking for inspiration, it offers a flexible, intelligent solution to help you find the right recipe — fast.
+
+---
+
+Would you like me to generate a professional-looking GitHub README layout with badges, screenshots, or demo instructions as well?
