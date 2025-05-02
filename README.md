@@ -67,6 +67,3 @@ Refine your search using:
 
 TasteMate bridges the gap between your pantry and your plate. Whether you're in a rush, cooking on a budget, or just looking for inspiration, it offers a flexible, intelligent solution to help you find the right recipe — fast.
 
----
-
-Would you like me to generate a professional-looking GitHub README layout with badges, screenshots, or demo instructions as well?
