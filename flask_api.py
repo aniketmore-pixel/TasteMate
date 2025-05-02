@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, render_template_string
 from flask_cors import CORS
 import pandas as pd
 import pymongo
@@ -17,16 +17,14 @@ HEADERS = {"Authorization": f"Bearer {API_USER_TOKEN}"}
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
-# Create upload folder if it doesn't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Function to check allowed file types
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
-    return render_template('index.html')  # Ensure the index.html exists in templates folder
+    return render_template('index.html')
 
 @app.route("/upload", methods=["POST"])
 def upload_image():
@@ -41,7 +39,6 @@ def upload_image():
     image.save(img_path)
 
     try:
-        # Send image to LogMeal API for dish detection
         url_detection = "https://api.logmeal.com/v2/image/segmentation/complete"
         with open(img_path, "rb") as image_file:
             resp_detection = requests.post(url_detection, files={"image": image_file}, headers=HEADERS)
@@ -53,41 +50,47 @@ def upload_image():
         if not image_id:
             return jsonify({"error": "No image ID found in API response"}), 400
 
-        # Get ingredients information
         url_ingredients = "https://api.logmeal.com/v2/recipe/ingredients"
         resp_ingredients = requests.post(url_ingredients, json={"imageId": image_id}, headers=HEADERS)
 
         if resp_ingredients.status_code != 200:
             return jsonify({"error": "Failed to get ingredients", "details": resp_ingredients.text}), resp_ingredients.status_code
 
-        # ✅ Instead of extracting ingredients, return the full JSON response
         return jsonify(resp_ingredients.json())
 
     except Exception as e:
         return jsonify({"error": "Server error", "message": str(e)}), 500
 
-# Connect to MongoDB
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["recipe_db"]
-collection = db["recipes"]
+# MongoDB and Data
+client = pymongo.MongoClient("mongodb+srv://aniketmore:cookie04@recipecluster.v1mvx69.mongodb.net/?retryWrites=true&w=majority&appName=RecipeCluster")
+db = client["mydb"]
+collection = db["mycollection"]
 
-# Load recipes
-recipes = list(collection.find({}, {"_id": 0, "name": 1, "cuisine": 1, "course": 1, "diet": 1, "image_url": 1, "ingredients": 1, "instructions": 1, "prep_time": 1, "description": 1}))
+recipes = list(collection.find({}, {
+    "_id": 0, "name": 1, "cuisine": 1, "course": 1, "diet": 1,
+    "image_url": 1, "ingredients": 1, "instructions": 1,
+    "prep_time": 1, "description": 1
+}))
 df = pd.DataFrame(recipes)
 
-# Load BERT model
+# BERT & TF-IDF
 model = SentenceTransformer('all-MiniLM-L6-v2')
 df["ingredients_str"] = df["ingredients"].apply(lambda x: " ".join(x) if isinstance(x, list) else str(x))
 
-# Load or generate embeddings
-if os.path.exists("recipe_embeddings.pkl") and os.path.exists("tfidf_matrix.pkl"):
-    print("✅ Loading pre-computed embeddings...")
+if (
+    os.path.exists("recipe_embeddings.pkl") and
+    os.path.exists("tfidf_matrix.pkl") and
+    os.path.exists("tfidf_vectorizer.pkl")
+):
+    print("✅ Loading pre-computed embeddings and vectorizer...")
     with open("recipe_embeddings.pkl", "rb") as f:
         recipe_embeddings = pickle.load(f)
     with open("tfidf_matrix.pkl", "rb") as f:
         tfidf_matrix = pickle.load(f)
+    with open("tfidf_vectorizer.pkl", "rb") as f:
+        tfidf_vectorizer = pickle.load(f)
 else:
-    print("⚙️ Generating embeddings for the first time...")
+    print("⚙️ Generating embeddings and vectorizer for the first time...")
     recipe_embeddings = model.encode(df["ingredients_str"], convert_to_tensor=True)
     tfidf_vectorizer = TfidfVectorizer()
     tfidf_matrix = tfidf_vectorizer.fit_transform(df["ingredients_str"])
@@ -95,12 +98,10 @@ else:
         pickle.dump(recipe_embeddings, f)
     with open("tfidf_matrix.pkl", "wb") as f:
         pickle.dump(tfidf_matrix, f)
+    with open("tfidf_vectorizer.pkl", "wb") as f:
+        pickle.dump(tfidf_vectorizer, f)
 
-# Always fit a new vectorizer instance
-tfidf_vectorizer = TfidfVectorizer()
-tfidf_vectorizer.fit(df["ingredients_str"])
-
-# Hybrid search logic with filters and offset
+# Hybrid Search
 def search_recipes_hybrid(user_ingredients, cuisine=None, course=None, diet=None, prep_time=None, top_n=5, offset=0):
     user_query = " ".join(user_ingredients)
     query_embedding = model.encode(user_query, convert_to_tensor=True)
@@ -125,7 +126,7 @@ def search_recipes_hybrid(user_ingredients, cuisine=None, course=None, diet=None
             pass
 
     filtered_df = filtered_df.sort_values(by="score", ascending=False)
-    filtered_df = filtered_df.iloc[offset:offset + top_n]  # Pagination logic
+    filtered_df = filtered_df.iloc[offset:offset + top_n]
 
     return filtered_df[["name", "cuisine", "course", "diet", "image_url", "ingredients", "instructions", "description", "prep_time"]].to_dict(orient="records")
 
@@ -137,7 +138,7 @@ def search():
     course = data.get("course")
     diet = data.get("diet")
     prep_time = data.get("prep_time")
-    offset = int(data.get("offset", 0))  # frontend will send offset
+    offset = int(data.get("offset", 0))
 
     if not user_ingredients:
         return jsonify({"error": "No ingredients provided"}), 400
@@ -150,11 +151,7 @@ def recipes():
     ingredients = request.form['ingredients']
     query = '+'.join(ingredients.split(','))
     search_url = f"https://www.allrecipes.com/search?q={query}"
-
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
-
+    headers = {"User-Agent": "Mozilla/5.0"}
     res = requests.get(search_url, headers=headers)
     soup = BeautifulSoup(res.text, 'html.parser')
 
@@ -166,14 +163,12 @@ def recipes():
             title_tag = card.select_one('span.card__title-text')
             link_tag = card.find_parent('a')
             img_tag = card.find_previous('img')
-
             rating_tag = card.select_one('div.mntl-recipe-star-rating')
             rating_count_tag = card.select_one('div.mntl-recipe-card-meta__rating-count-number')
 
             title = title_tag.get_text(strip=True) if title_tag else 'No title'
             link = link_tag['href'] if link_tag else '#'
             image = img_tag['src'] if img_tag and 'src' in img_tag.attrs else ''
-
             stars = rating_tag.find_all('svg', class_='icon-star') if rating_tag else []
             half_stars = rating_tag.find_all('svg', class_='icon-star-half') if rating_tag else []
             rating = len(stars) + len(half_stars) * 0.5
@@ -201,4 +196,4 @@ def recipes():
 
 if __name__ == "__main__":
     print("🚀 Running Recipe Finder on port 5000 with filters, explore more, and precomputed embeddings!")
-    app.run(host='0.0.0.0',port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

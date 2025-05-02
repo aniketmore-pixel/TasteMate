@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Recommendation System</title>
+    <title>TasteMate</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,8 +13,10 @@
 
     <!-- 🍽️ Fixed Input Section -->
     <div class="fixed-panel">
-        <h2 class="text-3xl font-bold text-green-800 text-center mb-6">🍽️ TasteMate</h2>
+        <img src="https://res.cloudinary.com/dyd9xroga/image/upload/v1745585560/k2rblyijsehbq79ia21t.png" width="35px" height="35px" id="titlelogo"/>
+        <h2 class="text-3xl font-bold text-center mb-6 tastemate-title">TasteMate</h2>
 
+        <div id="gap"></div>
         <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-md">
             <h2 class="text-xl font-semibold text-gray-700 mb-2">
               📷 Upload or Capture an Image to Detect Ingredients
@@ -40,14 +42,14 @@
             <div class="flex flex-col items-center gap-4 mt-4">
               <button
                 onclick="document.getElementById('imageInput').click()"
-                class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
+                class="buttona"
               >
                 Select from Device
               </button>
              
               <button
                 onclick="openCamera()"
-                class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
+                class="buttona"
               >
                 Capture from Camera
               </button>
@@ -59,7 +61,7 @@
             <form onsubmit="uploadImage(event)" class="flex flex-col items-center gap-4 mt-4">
               <button
                 type="submit"
-                class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
+                class="buttona"
               >
                 Detect Ingredients
               </button>
@@ -69,7 +71,7 @@
         <!-- 🎙 Voice Search -->
         <div class="text-center">
             <p class="text-lg font-semibold text-gray-700">🎤 Voice Search for Ingredients:</p>
-            <button onclick="recordSpeech()" class="btn">Start Recording</button>
+            <button onclick="recordSpeech()" class="buttona">Start Recording</button>
             <div class="recording-status text-red-600 font-bold mt-2" id="recordingStatus"></div>
             <p id="voice-output" class="mt-2 text-gray-600"></p>
         </div>
@@ -150,9 +152,9 @@
 
         <!-- 🔍 Search Button -->
         <div class="text-center mt-6">
-            <button onclick="searchRecipes(true)" class="btn">Find Recipes</button>
+            <button onclick="searchRecipes(true)" class="buttonz">Find Recipes</button>
         </div><br>
-        <button type="button" onclick="window.location.href='https://scrapp-zeta.vercel.app/'" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
+        <button type="button" onclick="window.location.href='https://scrapp-zeta.vercel.app/'" class="buttonz">
           🌐 Search from web
         </button>
         
@@ -165,7 +167,7 @@
             <h2 id="recipeTitle" class="font-bold text-3xl">Find Your Recipes...</h2>
             <div id="results"></div>
             <div id="scrappedResults"></div>
-            <button id="exploreMore" class="btn hidden" onclick="searchRecipes(false)">
+            <button id="exploreMore" class="buttona hidden" onclick="searchRecipes(false)">
                 Explore More Recipes...
             </button>
         </div>
