@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 
 app = Flask(__name__, template_folder='templates1')
-CORS(app, origins=["https://tastemate-mocha.vercel.app"])
+CORS(app)
 
 API_USER_TOKEN = "__BLANK__"
 HEADERS = {"Authorization": f"Bearer {API_USER_TOKEN}"}
@@ -193,6 +193,13 @@ def recipes():
         </div>
     {% endfor %}
     ''', recipes=recipes_data)
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "https://tastemate-mocha.vercel.app"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+    return response
 
 if __name__ == "__main__":
     print("🚀 Running Recipe Finder on port 5000 with filters, explore more, and precomputed embeddings!")
