@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TasteMate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- 🍽️ Fixed Input Section -->
+    <div class="fixed-panel">
+        <img src="https://res.cloudinary.com/dyd9xroga/image/upload/v1745585560/k2rblyijsehbq79ia21t.png" width="35px" height="35px" id="titlelogo"/>
+        <h2 class="text-3xl font-bold text-center mb-6 tastemate-title">TasteMate</h2>
+
+        <div id="gap"></div>
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">
+              📷 Upload or Capture an Image to Detect Ingredients
+            </h2>
+           
+            <div
+              id="dropZone"
+              class="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer bg-white hover:bg-gray-100 transition duration-200"
+              ondrop="handleDrop(event)"
+              ondragover="handleDragOver(event)"
+            >
+              <p class="text-gray-500">Drag & Drop an image here or click to select</p>
+              <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+                required
+                class="hidden"
+                onchange="previewImage(event)"
+              />
+            </div>
+           
+            <div class="flex flex-col items-center gap-4 mt-4">
+              <button
+                onclick="document.getElementById('imageInput').click()"
+                class="buttona"
+              >
+                Select from Device
+              </button>
+             
+              <button
+                onclick="openCamera()"
+                class="buttona"
+              >
+                Capture from Camera
+              </button>
+             
+              <video id="cameraPreview" class="hidden w-full rounded-lg shadow-md"></video>
+              <canvas id="capturedCanvas" class="hidden"></canvas>
+            </div>
+           
+            <form onsubmit="uploadImage(event)" class="flex flex-col items-center gap-4 mt-4">
+              <button
+                type="submit"
+                class="buttona"
+              >
+                Detect Ingredients
+              </button>
+            </form>
+          </div>
+        
+        <!-- 🎙 Voice Search -->
+        <div class="text-center">
+            <p class="text-lg font-semibold text-gray-700">🎤 Voice Search for Ingredients:</p>
+            <button onclick="recordSpeech()" class="buttona">Start Recording</button>
+            <div class="recording-status text-red-600 font-bold mt-2" id="recordingStatus"></div>
+            <p id="voice-output" class="mt-2 text-gray-600"></p>
+        </div>
+
+        <!-- 📝 Manual Input -->
+        <div class="mt-6">
+            <p class="text-lg font-semibold text-gray-700">Or type ingredients (comma-separated):</p>
+            <input type="text" id="ingredients" placeholder="e.g., tomato, onion, garlic" class="input-field">
+        </div>
+        <!-- <div class="container">
+          <form action="/recipes" method="post">
+            <div class="form-group mb-4">
+              <label for="ingredients" class="block text-green-700 font-semibold mb-2">Ingredients (comma separated)</label>
+              <input
+                type="text" id="ingredients" name="ingredients" placeholder="e.g., chicken, garlic, onion" required
+                class="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 shadow-sm"
+              >
+            </div>
+             -->
+            
+          <!-- </form>
+        </div> -->
+
+        <!-- 🧩 Filters -->
+        <div class="mt-6 grid grid-cols-1 gap-4">
+            <div>
+                <p class="label">Cuisine:</p>
+                <select id="cuisineFilter" class="dropdown">
+                    <option value="">-- Any Cuisine --</option>
+                    <option value="Indian">Indian</option>
+                    <option value="South Indian Recipes">South Indian Recipes</option>
+                    <option value="Goan Recipes">Goan Recipes</option>
+                    <option value="North Indian Recipes">North Indian Recipes</option>
+                    <option value="Gujarati Recipes">Gujarati Recipes</option>
+                    <option value="Punjabi">Punjabi</option>
+                    <option value="Bengali Recipes">Bengali Recipes</option>
+                    <option value="Chinese">Chinese</option>
+                </select>
+            </div>
+
+            <div>
+                <p class="label">Course:</p>
+                <select id="courseFilter" class="dropdown">
+                    <option value="">-- Any Course --</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Appetizer">Appetizer</option>
+                </select>
+            </div>
+
+            <div>
+                <p class="label">Diet:</p>
+                <select id="dietFilter" class="dropdown">
+                    <option value="">-- Any Diet --</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Non Vegetarian">Non Vegetarian</option>
+                    <option value="High Protein Non Vegetarian">High Protein Non Vegetarian</option>
+                    <option value="Gluten Free">Gluten Free</option>
+                    <option value="Diabetic Friendly">Diabetic Friendly</option>
+                </select>
+            </div>
+
+            <div>
+                <p class="label">Max Prep Time (Minutes):</p>
+                <select id="prepTimeFilter" class="dropdown">
+                    <option value="">-- Any Prep Time --</option>
+                    <option value="30">Less than 30 mins</option>
+                    <option value="60">Less than 60 mins</option>
+                    <option value="120">Less than 120 mins</option>
+                    <option value="240">Less than 240 mins</option>
+                    <option value="500">Less than 500 mins</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 🔍 Search Button -->
+        <div class="text-center mt-6">
+            <button onclick="searchRecipes(true)" class="buttonz">Find Recipes</button>
+        </div><br>
+        <button type="button" onclick="window.location.href='https://scrapp-zeta.vercel.app/'" class="buttonz">
+          🌐 Search from web
+        </button>
+        
+    </div>
+
+
+    <!-- 📜 Scrollable Output Section -->
+    <div class="scroll-panel">
+        <div class="recipe-box">
+            <h2 id="recipeTitle" class="font-bold text-3xl">Find Your Recipes...</h2>
+            <div id="results"></div>
+            <div id="scrappedResults"></div>
+            <button id="exploreMore" class="buttona hidden" onclick="searchRecipes(false)">
+                Explore More Recipes...
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
