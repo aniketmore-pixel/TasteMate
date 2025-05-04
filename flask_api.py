@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__, template_folder='templates1')
 CORS(app,
      supports_credentials=True,
-     resources={r"/*": {"origins": ["https://tastemate-mocha.vercel.app"]}},
+     resources={r"/*": {"origins": ["https://tastemate-o2wx.onrender.com"]}},
      allow_headers=["Content-Type", "Authorization"],
      expose_headers=["Content-Type"],
      methods=["GET", "POST", "OPTIONS"])
