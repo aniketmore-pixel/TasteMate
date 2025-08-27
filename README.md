@@ -6,12 +6,13 @@
 
 ## How to Run
 
-````markdown
 
 
 
 
 1. **Clone the repository**
+
+````markdown
    ```bash
    git clone <your-repo-url>
    cd <repo-folder>
