@@ -4,8 +4,6 @@
 
 ---
 
-# Flask-based ML App
-
 ## How to Run
 
 ````markdown
