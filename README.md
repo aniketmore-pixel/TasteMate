@@ -3,12 +3,10 @@
 **TasteMate** is an intelligent, multi-input recipe discovery web application that helps you find delicious recipes effortlessly. Whether you prefer to **speak**, **type**, or **upload a photo**, TasteMate adapts to your style. With advanced filters and web scraping capabilities, discovering the perfect recipe has never been easier.
 
 ---
+Since hosting on Render and Heroku is expensive (this project exceeds the free tier storage limits), I couldn’t host it online. However, you can clone the repository and try it out locally.
+---
 
 ## How to Run
-
-
-
-
 
 1. **Clone the repository**
 
