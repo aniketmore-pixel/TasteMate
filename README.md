@@ -4,6 +4,47 @@
 
 ---
 
+Got it 👍 Here’s a ready-to-paste **README.md** section:
+
+````markdown
+# Flask-based ML App
+
+## How to Run
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd <repo-folder>
+````
+
+2. **Install dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Start the app**
+
+   * Open **two separate terminals**:
+
+     **Terminal 1 (Frontend):**
+
+     ```bash
+     python -m http.server
+     ```
+
+     **Terminal 2 (Backend):**
+
+     ```bash
+     flask run --app flask_api.py
+     ```
+
+4. **Open in your browser**
+
+   ```
+   http://localhost:8000
+   ```
+
 ## 🚀 **Key Features**
 
 ### 🎙️ Voice-Powered Ingredient Input
