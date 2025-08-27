@@ -58,6 +58,7 @@ Refine your search using:
 | Voice Recognition    | Google Speech-to-Text API |
 | Image Recognition    | LogMeal API               |
 | Backend              | Flask (Python)            |
+| ML Model             | TF-IDF + BERT             |
 | Web Scraping         | BeautifulSoup (Python)    |
 | External Data Source | AllRecipes.com            |
 
