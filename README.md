@@ -12,10 +12,10 @@
 
 1. **Clone the repository**
 
-````bash
-   git clone <your-repo-url>
-   cd <repo-folder>
-````
+   ```bash
+   git clone https://github.com/aniketmore-pixel/TasteMate.git
+   cd TasteMate
+   ```
 
 2. **Install dependencies**
 
