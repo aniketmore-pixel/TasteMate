@@ -12,8 +12,7 @@
 
 1. **Clone the repository**
 
-````markdown
-   ```bash
+````bash
    git clone <your-repo-url>
    cd <repo-folder>
 ````
